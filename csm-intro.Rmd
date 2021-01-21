@@ -22,7 +22,7 @@ knitr::opts_chunk$set(error = TRUE)
 
 This tutorial exposes you to some basic statistical concepts used in centralized statistical monitoring (CSM). Feel free to follow along in [the paper by Beauregard et al](https://www.appliedclinicaltrialsonline.com/view/basics-clinical-trial-centralized-monitoring). 
 
-```{r paper, echo = FALSE, out.width = "50%", out.width = "50%"}
+```{r paper, echo = FALSE, out.width = "80%", out.width = "80%"}
 knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/paper.png?raw=true")
 ```
 
@@ -54,25 +54,32 @@ We will cover:
 
 ## The Normal Distribution
 
-The normal distribution is symmetrical around mean (or average). The tails represent the spread (variance) from the location (central tendency)
+The normal distribution is symmetrical around the mean (or average). The tails represent the spread (variance) from the location (central tendency).
 
 ```{r normal-dist.png, echo=FALSE, out.height='80%', out.width='80%'}
 knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
 ```
 
+
+
 ### Generating random numbers 
 
-In R we can create a vector of random numbers using the `rnorm()` function. The `rnorm()` function takes three arguments: 
+In R we can create a vector of random numbers using the `rnorm()` function. `r` stands for *random*, and `norm` stands for *normal*.
+
+The `rnorm()` function has three arguments: 
 
 1. `n` = how many numbers to generate  
 2. `mean` = the mean for the random numbers  
 3. `sd` = the standard deviation for the random numbers  
 
-Create the `rand_norm10` vector by setting `n` to `10`. Click on the **Run code** button below to see how this works. 
+Create the `rand_norm10` vector by setting `n` to `10`. We will leave the `mean` and `sd` blank for this exercise. 
+
 
 ```{r prepare-rand_norm10}
 rand_norm10 <- rnorm(n = 10)
 ```
+
+Enter `10` inside the `rnorm()` function and click on the **Run code** button below to see how this works. 
 
 ```{r rand_norm10, exercise = TRUE}
 rand_norm10 <- rnorm(n = )
@@ -80,16 +87,21 @@ rand_norm10 <- rnorm(n = )
 rand_norm10
 ```
 
-Use the `mean()` and `sd()` functions to check the mean and standard deviation for the random numbers we stored in `rand_norm10`. 
+Now we will use the `mean()` and `sd()` functions to check the mean and standard deviation for the random numbers we stored in `rand_norm10`.
+
+Place `rand_norm10`inside `mean()` and click on the **Run code** button.
 
 ```{r mean, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
 mean()
 ```
 
+Place `rand_norm10`inside `sd()` and click on the **Run code** button.
 
 ```{r sd, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
 sd()
 ```
+
+The default values for the `mean` and `sd` are `0` and `1`, respectively. How close are these randomly generated values to `0` and `1`?
 
 *Programming tip: check the structure of `rand_norm10` with `str()` below* 
 
@@ -97,7 +109,11 @@ sd()
 str()
 ```
 
-This is a numeric vector. Vectors are the most common data structure in R.
+rand_norm10 is a numeric vector (`num`). Vectors are the most common data structure in R. 
+
+This process of using a function to create an object (like `rand_norm10`), then using another function to explore it's contents is essential in R. Think of it as '**store and explore**'
+
+
 
 
 ### Sample size, mean, and standard deviation
@@ -153,15 +169,15 @@ skimr::skim(data = )
 
 The [`skimr` package](https://docs.ropensci.org/skimr/) is great for "*displaying summary statistics the user can skim quickly to understand their data.*" The `skimr::skim()` output gives us: 
 
-- the `n_missing` and `complete_rate` (we only have a single vector, but this comes in handy if we have a large dataset and want know what is present/missing)
+- the `n_missing` and `complete_rate` (we only have two columns in `Normal`, but this comes in handy if we have a large dataset and want know what if any data are missing!)
 
-- the `mean` gives us the average for the data (the 'central location')
-- the standard deviation (as `sd`), a measure of the data's disbursement (or 'spread') 
-  - *The standard deviation (`sd`) describes how far a variable's values are spread out around their `mean`*  
-- the lowest value for each variable, or minimum (as `p0`)   
-- the first quartile (as `p25`), which is the 'middle' of the data points *below* the median (see below)  
-- the median (as `p50`) or the 'middle' value for the data (half of the values are above, and half are below)  
-- the third quartile (as `p75`), which is the 'middle' of the data points *above* the median  
+- the `mean` gives us the average for the data (the 'central location')  
+- the standard deviation (as `sd`), a measure of the data's disbursement (or 'spread')   
+  - *The standard deviation (`sd`) describes how far a variable's values are spread out around their `mean`*   
+- the lowest value for each variable, or minimum (as `p0`)    
+- the first quartile (as `p25`), which is the 'middle' of the data points *below* the median (see below)    
+- the median (as `p50`) or the 'middle' value for the data (half of the values are above, and half are below)    
+- the third quartile (as `p75`), which is the 'middle' of the data points *above* the median   
   - *Together, the `p75` and `p25` can give us the interquartile range (IQR), which is the difference between the third and first quartiles* 
 - the highest value for each variable, or maximum (as `p100`)   
 - the `hist` column (a small histogram for the `numeric` variables)  
@@ -172,34 +188,128 @@ The [`skimr` package](https://docs.ropensci.org/skimr/) is great for "*displayin
 
 As we've said before, the shape of a normal distribution is determined by the sample size (`n`), the average (or `mean`), and the standard deviation (`sd`). 
 
-The shape of the curve in a normal distribution is always symmetrical, but it's not always the same shape. We can change the shape of the distribution by changing the `n`, `mean`, and `sd` arguments. 
+The shape of the curve in a normal distribution is always symmetrical, but it's not always the same shape. The shape of the distribution changes based on the `n`, `mean`, and `sd` arguments. 
 
 We're going to generate a series of plots, each with a normal distribution, but with varying values for `n`, `mean`, and `sd`. 
 
 To generate these plots, we'll be using `ggplot2`, a popular data visualization package from RStudio. **This is not a data visualization tutorial.** We are only going to cover what you need to know to visualize the two distributions we mentioned in the outline. 
 
-
-1. Build the canvas for the plot and store it in `base_layer`  
-  - `ggplot()` initiates the plot object  
-  - `xlim(-100, 100)` sets the limits on the x axis 
-
 ```{r prepare-base}
-base_layer <- ggplot() + xlim(-100, 100)
+base_layer <- ggplot()
 ```
+
+First we build a canvas for our plots and store it as `base_layer`  
+
+- `ggplot()` initiates the plot object 
 
 ```{r base, exercise=TRUE}
-base_layer <- ggplot() + xlim(-100, 100)
-```
-
-2. Print the base
-
-```{r print-base, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer <- ggplot()
 base_layer
 ```
 
+Next we create limits for the `x` axis  
+
+- `xlim(0, 10)` sets the limits on the x axis from 0 to 10 
+
+```{r xlim, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer + 
+    # add limits for x axis 
+    xlim(0, 10)
+```
+
+Now we can add a `geom_function()` layer:  
+
+- we specify the distribution we want to see (`fun = dnorm`), `d` stands for *density*, and `norm` stands for *normal*  
+
+- the `mean` and `sd` are arguments (`args`) we provide in a `list()`
+
+```{r geom_function, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer + 
+    # x axis limits
+    xlim(0, 10) +
+    # add normal distribution layer
+    geom_function(
+        # dnorm is the normal distribution function
+        fun = dnorm, 
+        # the args are stored in a list(mean, sd)
+            args = list(mean = 5, 
+                        sd = 1))
+```
+
+There we have it--normal distribution! We can see the center of the distribution is directly above `5`. 
+
+The reason the normal distribution is so useful is that if a variable is normally distributed, we know the following: 
+
+1. The area under the curve that ranges from 1 standard deviation above the mean to 1 standard deviation below the mean contains approximately 68% of the data  
+
+2. The area under the curve that ranges from 2 standard deviations above the mean to 2 standard deviations below the mean covers approximately 95% of the data
+
+3. The area under the curve that ranges from 3 standard deviations above the mean to 3 standard deviations below the mean covers approximately 99.7% of the data
+
+So, if we know the a sample's mean and standard deviation, we can these two measurements to find (or plot) the shape of the distribution (*provided the data were sampled from a normal distribution*). In fact, that's exactly what we just did!
+
+Now we're going to see what happens when we change sample size: 
+
+- set the x axis limits to `(-4, 4)`   
+- change the `args` we supplied in the `list` to `n = 10` 
+
+```{r change-mean, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer + 
+    # set new x axis limits
+    xlim( ) +
+    # add normal distribution layer
+    geom_function(
+    # dnorm is the normal distribution function
+        fun = dnorm, 
+        # enter the new value below
+            n = ) 
+```
+
+Notice that the line for the distribution isn't as smooth as it was when we supplied the mean and sd. This is because it's difficult to draw a smooth line connecting only 10 data points. We will use the `stat_function()` to add another layer to our plot so we can see the data points in this distribution. 
+
+- `stat_function()` needs the `fun` set to `dnorm`, the `geom` set to `"point"`, and `n` set to `10` 
+
+```{r stat_function, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer + 
+    # x axis limits
+    xlim(-4, 4) +
+    # geom function layer
+    geom_function(fun = dnorm, n = 10) + 
+    # fill in the stat function values...
+    stat_function(
+        # set to dnorm
+        fun = , 
+        # set geom to "point"
+        geom = , 
+        # set n to 10
+        n = 
+    )
+```
+
+We can see the line passes through all ten data points. *What if we increase the sample size?*
+
+- Increase the sample size in each layer (`geom_function()` and `stat_function()`) to `100`
+
+```{r stat_function-large-sample, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer + 
+    xlim(-4, 4) +
+    geom_function(
+        fun = dnorm, 
+        # enter the new value below
+        n = ) + 
+    stat_function(
+        fun = dnorm, 
+        geom = "point", 
+        # enter the new value below
+        n = 
+    )
+```
+
+By increasing the sample size, we've made the distribution more 'bell-shaped' (it's hard to base predictions off of small samples).
 
 
 ### Z-scores and p-values 
+
 
 ### Cumulative probabiliy
 

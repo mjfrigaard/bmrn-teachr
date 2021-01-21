@@ -1,5 +1,6 @@
 ---
 title: "Centralized Statistical Monitoring (CSM) in Clinical Trials"
+description: "This tutorial demonstrates some of the basic statistical concepts for Centralized Statistical Monitoring."
 output: 
   learnr::tutorial:
        progressive: TRUE
@@ -8,43 +9,58 @@ output:
        df_print: paged
        
 runtime: shiny_prerendered
-description: "This tutorial demonstrates some of the basic statistical concepts for Centralized Statistical Monitoring."
 ---
 
 ```{r setup, include = FALSE}
 library(learnr)
+library(tidyverse)
+library(skimr)
 knitr::opts_chunk$set(error = TRUE)
-
 ```
 
 ## Introduction
 
 This tutorial exposes you to some basic statistical concepts used in centralized statistical monitoring (CSM). Feel free to follow along in [the paper by Beauregard et al](https://www.appliedclinicaltrialsonline.com/view/basics-clinical-trial-centralized-monitoring). 
 
-We will also introduce some basic R functions and syntax. 
+```{r paper, echo = FALSE, out.width = "50%", out.width = "50%"}
+knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/paper.png?raw=true")
+```
+
+To help understand these topics, we're going to be using the R statistical programming language.  
 
 ```{r Rlogo, echo = FALSE, out.width = "100px"}
 knitr::include_graphics(path = "https://raw.githubusercontent.com/aosmith16/r-basics-workshop/master/images/Rlogo.png")
 ```
+
+You don't need to download or install any additional software to work though this tutorial (it's all your browser!).
 
 ## Outline
 
 We will cover: 
 
 - Normal distribution   
-  - Z-scores and p-values  
-  - Cumulative probability  
+  - sample size (`n`)  
+  - mean and standard deviation (`sd`)    
+  - visualizing the normal distribution  
+  - z-scores and p-values   
+  - cumulative probability  
+
 - Chi-square distribution   
-  - Degrees of freedom, n  
+  - degrees of freedom (`df`) and sample size (`n`) 
+  - visualizing the chi-square distribution    
   - p-values   
+  
+- Detecting outliers
 
 ## The Normal Distribution
 
-The normal distribution is symmetrical around mean (or average). The tails represent spread (variance) from location (central tendency)
+The normal distribution is symmetrical around mean (or average). The tails represent the spread (variance) from the location (central tendency)
 
-```{r normal-dist.png, echo=FALSE}
+```{r normal-dist.png, echo=FALSE, out.height='80%', out.width='80%'}
 knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
 ```
+
+### Generating random numbers 
 
 In R we can create a vector of random numbers using the `rnorm()` function. The `rnorm()` function takes three arguments: 
 
@@ -52,21 +68,147 @@ In R we can create a vector of random numbers using the `rnorm()` function. The 
 2. `mean` = the mean for the random numbers  
 3. `sd` = the standard deviation for the random numbers  
 
-Click on the **Run code** button below to see how this works. 
+Create the `rand_norm10` vector by setting `n` to `10`. Click on the **Run code** button below to see how this works. 
 
-```{r rnorm1, exercise = TRUE}
+```{r prepare-rand_norm10}
 rand_norm10 <- rnorm(n = 10)
+```
+
+```{r rand_norm10, exercise = TRUE}
+rand_norm10 <- rnorm(n = )
 # print to screen
 rand_norm10
 ```
 
 Use the `mean()` and `sd()` functions to check the mean and standard deviation for the random numbers we stored in `rand_norm10`. 
 
-```{r mean, exercise = TRUE}
+```{r mean, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
 mean()
 ```
 
 
-```{r sd, exercise = TRUE}
+```{r sd, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
 sd()
 ```
+
+*Programming tip: check the structure of `rand_norm10` with `str()` below* 
+
+```{r str-rand_norm10, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
+str()
+```
+
+This is a numeric vector. Vectors are the most common data structure in R.
+
+
+### Sample size, mean, and standard deviation
+
+Most of the time we're encountering data in tables (like spreadsheets), so we'll create a `data.frame` with two columns, each with a normal distribution. 
+
+- `rand_var_01` column has a `mean` of `2` and the `sd` set to `1`
+
+- `rand_var_02` column has a `mean` of `5` and the `sd` set to `10`
+
+Click on the **Run code** button below:
+
+```{r Normal, exercise=TRUE}
+Normal <- data.frame(rand_var_01 = rnorm(n = 100, 
+                                         mean = 2, 
+                                         sd = 1), 
+                     rand_var_02 = rnorm(n = 100, 
+                                         mean = 5, 
+                                         sd = 10))
+Normal
+```
+
+```{r prepare-Normal, echo=TRUE}
+Normal <- data.frame(rand_var_01 = rnorm(n = 100, 
+                                         mean = 2, 
+                                         sd = 1), 
+                     rand_var_02 = rnorm(n = 100, 
+                                         mean = 5, 
+                                         sd = 10))
+```
+
+**YIKES!** We don't want to print all 100 numbers in `Normal` to the screen, so we will use the [`glimpse()` function from `dplyr`](https://tibble.tidyverse.org/reference/glimpse.html)
+
+*Programming tip: `glimpse()` is similar to str(), but prints more data to the screen.*  
+
+```{r glimpse-Normal, exercise=TRUE, exercise.setup = "prepare-Normal"}
+# put the Normal inside the glimpse() function
+glimpse(x = )
+```
+
+We want to see if the columns in `Normal` look like the figure below:
+
+```{r normal-dist-png-2, echo=FALSE, out.height='80%', out.width='80%'}
+knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
+```
+
+We can use the `skim()` function from `skimr` to view the summary statistics for `Normal`:
+
+```{r skim-Normal, exercise=TRUE, exercise.setup = "prepare-Normal"}
+# place the Normal inside the skim() function
+skimr::skim(data = )
+```
+
+The [`skimr` package](https://docs.ropensci.org/skimr/) is great for "*displaying summary statistics the user can skim quickly to understand their data.*" The `skimr::skim()` output gives us: 
+
+- the `n_missing` and `complete_rate` (we only have a single vector, but this comes in handy if we have a large dataset and want know what is present/missing)
+
+- the `mean` gives us the average for the data (the 'central location')
+- the standard deviation (as `sd`), a measure of the data's disbursement (or 'spread') 
+  - *The standard deviation (`sd`) describes how far a variable's values are spread out around their `mean`*  
+- the lowest value for each variable, or minimum (as `p0`)   
+- the first quartile (as `p25`), which is the 'middle' of the data points *below* the median (see below)  
+- the median (as `p50`) or the 'middle' value for the data (half of the values are above, and half are below)  
+- the third quartile (as `p75`), which is the 'middle' of the data points *above* the median  
+  - *Together, the `p75` and `p25` can give us the interquartile range (IQR), which is the difference between the third and first quartiles* 
+- the highest value for each variable, or maximum (as `p100`)   
+- the `hist` column (a small histogram for the `numeric` variables)  
+
+***Is the `hist` shaped like the normal distribution figure above?***
+
+### Visualizing the normal distribution
+
+As we've said before, the shape of a normal distribution is determined by the sample size (`n`), the average (or `mean`), and the standard deviation (`sd`). 
+
+The shape of the curve in a normal distribution is always symmetrical, but it's not always the same shape. We can change the shape of the distribution by changing the `n`, `mean`, and `sd` arguments. 
+
+We're going to generate a series of plots, each with a normal distribution, but with varying values for `n`, `mean`, and `sd`. 
+
+To generate these plots, we'll be using `ggplot2`, a popular data visualization package from RStudio. **This is not a data visualization tutorial.** We are only going to cover what you need to know to visualize the two distributions we mentioned in the outline. 
+
+
+1. Build the canvas for the plot and store it in `base_layer`  
+  - `ggplot()` initiates the plot object  
+  - `xlim(-100, 100)` sets the limits on the x axis 
+
+```{r prepare-base}
+base_layer <- ggplot() + xlim(-100, 100)
+```
+
+```{r base, exercise=TRUE}
+base_layer <- ggplot() + xlim(-100, 100)
+```
+
+2. Print the base
+
+```{r print-base, exercise=TRUE, exercise.setup = "prepare-base"}
+base_layer
+```
+
+
+
+### Z-scores and p-values 
+
+### Cumulative probabiliy
+
+
+
+
+
+
+
+
+
+

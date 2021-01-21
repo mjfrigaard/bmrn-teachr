@@ -52,7 +52,7 @@ We will cover:
   
 - Detecting outliers
 
-## The Normal Distribution
+## The normal distribution (Intro)
 
 The normal distribution is symmetrical around the mean (or average). The tails represent the spread (variance) from the location (central tendency).
 
@@ -62,7 +62,7 @@ knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/m
 
 
 
-### Generating random numbers 
+## Generating a normal distribution
 
 In R we can create a vector of random numbers using the `rnorm()` function. `r` stands for *random*, and `norm` stands for *normal*.
 
@@ -74,12 +74,11 @@ The `rnorm()` function has three arguments:
 
 Create the `rand_norm10` vector by setting `n` to `10`. We will leave the `mean` and `sd` blank for this exercise. 
 
-
 ```{r prepare-rand_norm10}
 rand_norm10 <- rnorm(n = 10)
 ```
 
-Enter `10` inside the `rnorm()` function and click on the **Run code** button below to see how this works. 
+Enter `10` inside the `rnorm()` function and click on the **Run Code** button below to see how this works. 
 
 ```{r rand_norm10, exercise = TRUE}
 rand_norm10 <- rnorm(n = )
@@ -89,13 +88,13 @@ rand_norm10
 
 Now we will use the `mean()` and `sd()` functions to check the mean and standard deviation for the random numbers we stored in `rand_norm10`.
 
-Place `rand_norm10`inside `mean()` and click on the **Run code** button.
+Place `rand_norm10` inside `mean()` and click on the **Run Code** button.
 
 ```{r mean, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
 mean()
 ```
 
-Place `rand_norm10`inside `sd()` and click on the **Run code** button.
+Place `rand_norm10` inside `sd()` and click on the **Run Code** button.
 
 ```{r sd, exercise = TRUE, exercise.setup = "prepare-rand_norm10"}
 sd()
@@ -109,14 +108,17 @@ The default values for the `mean` and `sd` are `0` and `1`, respectively. How cl
 str()
 ```
 
-rand_norm10 is a numeric vector (`num`). Vectors are the most common data structure in R. 
+`rand_norm10` is a numeric vector (`num`). Vectors are the most common data structure in R. 
 
 This process of using a function to create an object (like `rand_norm10`), then using another function to explore it's contents is essential in R. Think of it as '**store and explore**'
 
+```{r store-explore.png, echo=FALSE, out.height='80%', out.width='80%'}
+knitr::include_graphics(
+"https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/store-explore.png?raw=true")
+```
 
 
-
-### Sample size, mean, and standard deviation
+## Normal distribution: n, mean, and sd
 
 Most of the time we're encountering data in tables (like spreadsheets), so we'll create a `data.frame` with two columns, each with a normal distribution. 
 
@@ -124,7 +126,7 @@ Most of the time we're encountering data in tables (like spreadsheets), so we'll
 
 - `rand_var_02` column has a `mean` of `5` and the `sd` set to `10`
 
-Click on the **Run code** button below:
+Click on the **Run Code** button below:
 
 ```{r Normal, exercise=TRUE}
 Normal <- data.frame(rand_var_01 = rnorm(n = 100, 
@@ -145,10 +147,14 @@ Normal <- data.frame(rand_var_01 = rnorm(n = 100,
                                          sd = 10))
 ```
 
-**YIKES!** We don't want to print all 100 numbers in `Normal` to the screen, so we will use the [`glimpse()` function from `dplyr`](https://tibble.tidyverse.org/reference/glimpse.html)
+As you can see, a `data.frame` in R is like a spreadsheet. The data are organized in rows and columns.
+
+If we don't want to print all 100 numbers in `Normal` to the screen, we can use the [`glimpse()` function from `dplyr`](https://tibble.tidyverse.org/reference/glimpse.html)
+
+
+Place `Normal` inside the `glimpse()` function and click on the **Run Code** button below to see how it works. 
 
 *Programming tip: `glimpse()` is similar to str(), but prints more data to the screen.*  
-
 ```{r glimpse-Normal, exercise=TRUE, exercise.setup = "prepare-Normal"}
 # put the Normal inside the glimpse() function
 glimpse(x = )
@@ -160,7 +166,7 @@ We want to see if the columns in `Normal` look like the figure below:
 knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
 ```
 
-We can use the `skim()` function from `skimr` to view the summary statistics for `Normal`:
+We can use the `skim()` function from `skimr` to view the summary statistics for `Normal`. Place `Normal` inside the `skim(data = )` function and click on the **Run Code** button below to see how it works. 
 
 ```{r skim-Normal, exercise=TRUE, exercise.setup = "prepare-Normal"}
 # place the Normal inside the skim() function
@@ -182,9 +188,13 @@ The [`skimr` package](https://docs.ropensci.org/skimr/) is great for "*displayin
 - the highest value for each variable, or maximum (as `p100`)   
 - the `hist` column (a small histogram for the `numeric` variables)  
 
-***Is the `hist` shaped like the normal distribution figure above?***
+***Is the `hist` shaped like the normal distribution figure?***
 
-### Visualizing the normal distribution
+```{r normal-dist-png-3, echo=FALSE, out.height='50%', out.width='50%'}
+knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
+```
+
+## Visualizing a normal distribution
 
 As we've said before, the shape of a normal distribution is determined by the sample size (`n`), the average (or `mean`), and the standard deviation (`sd`). 
 
@@ -307,11 +317,11 @@ base_layer +
 
 By increasing the sample size, we've made the distribution more 'bell-shaped' (it's hard to base predictions off of small samples).
 
+## Normal distribution: z-scores
 
-### Z-scores and p-values 
+## Normal distribution: p-values 
 
-
-### Cumulative probabiliy
+## Normal distribution: cumulative probabiliy
 
 
 

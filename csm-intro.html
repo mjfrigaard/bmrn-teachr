@@ -150,12 +150,13 @@ $(document).ready(function () {
 <li>Detecting outliers</li>
 </ul>
 </div>
-<div id="section-the-normal-distribution" class="section level2">
-<h2>The Normal Distribution</h2>
+<div id="section-the-normal-distribution-intro" class="section level2">
+<h2>The normal distribution (Intro)</h2>
 <p>The normal distribution is symmetrical around the mean (or average). The tails represent the spread (variance) from the location (central tendency).</p>
 <p><img src="https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true" width="80%" height="80%" /></p>
-<div id="section-generating-random-numbers" class="section level3">
-<h3>Generating random numbers</h3>
+</div>
+<div id="section-generating-a-normal-distribution" class="section level2">
+<h2>Generating a normal distribution</h2>
 <p>In R we can create a vector of random numbers using the <code>rnorm()</code> function. <code>r</code> stands for <em>random</em>, and <code>norm</code> stands for <em>normal</em>.</p>
 <p>The <code>rnorm()</code> function has three arguments:</p>
 <ol style="list-style-type: decimal">
@@ -166,21 +167,23 @@ $(document).ready(function () {
 <li><code>sd</code> = the standard deviation for the random numbers</li>
 </ol>
 <p>Create the <code>rand_norm10</code> vector by setting <code>n</code> to <code>10</code>. We will leave the <code>mean</code> and <code>sd</code> blank for this exercise.</p>
-<p>Click on the <strong>Run code</strong> button below to see how this works.</p>
 <div class="tutorial-exercise-support" data-label="prepare-rand_norm10" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>rand_norm10 &lt;- rnorm(n = 10)</code></pre>
 </div>
+<p>Enter <code>10</code> inside the <code>rnorm()</code> function and click on the <strong>Run Code</strong> button below to see how this works.</p>
 <div class="tutorial-exercise" data-label="rand_norm10" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>rand_norm10 &lt;- rnorm(n = )
 # print to screen
 rand_norm10</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":true,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
 </div>
-<p>Use the <code>mean()</code> and <code>sd()</code> functions to check the mean and standard deviation for the random numbers we stored in <code>rand_norm10</code>.</p>
+<p>Now we will use the <code>mean()</code> and <code>sd()</code> functions to check the mean and standard deviation for the random numbers we stored in <code>rand_norm10</code>.</p>
+<p>Place <code>rand_norm10</code> inside <code>mean()</code> and click on the <strong>Run Code</strong> button.</p>
 <div class="tutorial-exercise" data-label="mean" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>mean()</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":true,"message":true,"exercise.df_print":"paged","exercise.setup":"prepare-rand_norm10","exercise.checker":"NULL"}</script>
 </div>
+<p>Place <code>rand_norm10</code> inside <code>sd()</code> and click on the <strong>Run Code</strong> button.</p>
 <div class="tutorial-exercise" data-label="sd" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>sd()</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":true,"message":true,"exercise.df_print":"paged","exercise.setup":"prepare-rand_norm10","exercise.checker":"NULL"}</script>
@@ -191,16 +194,18 @@ rand_norm10</code></pre>
 <pre class="text"><code>str()</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":true,"message":true,"exercise.df_print":"paged","exercise.setup":"prepare-rand_norm10","exercise.checker":"NULL"}</script>
 </div>
-<p>This is a numeric vector. Vectors are the most common data structure in R.</p>
+<p><code>rand_norm10</code> is a numeric vector (<code>num</code>). Vectors are the most common data structure in R.</p>
+<p>This process of using a function to create an object (like <code>rand_norm10</code>), then using another function to explore it’s contents is essential in R. Think of it as ‘<strong>store and explore</strong>’</p>
+<p><img src="https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/store-explore.png?raw=true" width="80%" height="80%" /></p>
 </div>
-<div id="section-sample-size-mean-and-standard-deviation" class="section level3">
-<h3>Sample size, mean, and standard deviation</h3>
+<div id="section-normal-distribution-n-mean-and-sd" class="section level2">
+<h2>Normal distribution: n, mean, and sd</h2>
 <p>Most of the time we’re encountering data in tables (like spreadsheets), so we’ll create a <code>data.frame</code> with two columns, each with a normal distribution.</p>
 <ul>
 <li><p><code>rand_var_01</code> column has a <code>mean</code> of <code>2</code> and the <code>sd</code> set to <code>1</code></p></li>
 <li><p><code>rand_var_02</code> column has a <code>mean</code> of <code>5</code> and the <code>sd</code> set to <code>10</code></p></li>
 </ul>
-<p>Click on the <strong>Run code</strong> button below:</p>
+<p>Click on the <strong>Run Code</strong> button below:</p>
 <div class="tutorial-exercise" data-label="Normal" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>Normal &lt;- data.frame(rand_var_01 = rnorm(n = 100, 
                                          mean = 2, 
@@ -219,8 +224,11 @@ Normal</code></pre>
                                          mean = 5, 
                                          sd = 10))</code></pre>
 </div>
-<p><strong>YIKES!</strong> We don’t want to print all 100 numbers in <code>Normal</code> to the screen, so we will use the <a href="https://tibble.tidyverse.org/reference/glimpse.html"><code>glimpse()</code> function from <code>dplyr</code></a></p>
-<p><em>Programming tip: <code>glimpse()</code> is similar to str(), but prints more data to the screen.</em></p>
+<p>As you can see, a <code>data.frame</code> in R is like a spreadsheet. The data are organized in rows and columns.</p>
+<p>If we don’t want to print all 100 numbers in <code>Normal</code> to the screen, we can use the <a href="https://tibble.tidyverse.org/reference/glimpse.html"><code>glimpse()</code> function from <code>dplyr</code></a></p>
+<p>Place <code>Normal</code> inside the <code>glimpse()</code> function and click on the <strong>Run Code</strong> button below to see how it works.</p>
+<em>Programming tip: <code>glimpse()</code> is similar to str(), but prints more data to the screen.</em><br />
+
 <div class="tutorial-exercise" data-label="glimpse-Normal" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># put the Normal inside the glimpse() function
 glimpse(x = )</code></pre>
@@ -228,7 +236,7 @@ glimpse(x = )</code></pre>
 </div>
 <p>We want to see if the columns in <code>Normal</code> look like the figure below:</p>
 <p><img src="https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true" width="80%" height="80%" /></p>
-<p>We can use the <code>skim()</code> function from <code>skimr</code> to view the summary statistics for <code>Normal</code>:</p>
+<p>We can use the <code>skim()</code> function from <code>skimr</code> to view the summary statistics for <code>Normal</code>. Place <code>Normal</code> inside the <code>skim(data = )</code> function and click on the <strong>Run Code</strong> button below to see how it works.</p>
 <div class="tutorial-exercise" data-label="skim-Normal" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># place the Normal inside the skim() function
 skimr::skim(data = )</code></pre>
@@ -258,10 +266,11 @@ skimr::skim(data = )</code></pre>
 </p></li>
 <li><p>the <code>hist</code> column (a small histogram for the <code>numeric</code> variables)</p></li>
 </ul>
-<p><strong><em>Is the <code>hist</code> shaped like the normal distribution figure above?</em></strong></p>
+<p><strong><em>Is the <code>hist</code> shaped like the normal distribution figure?</em></strong></p>
+<p><img src="https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true" width="50%" height="50%" /></p>
 </div>
-<div id="section-visualizing-the-normal-distribution" class="section level3">
-<h3>Visualizing the normal distribution</h3>
+<div id="section-visualizing-a-normal-distribution" class="section level2">
+<h2>Visualizing a normal distribution</h2>
 <p>As we’ve said before, the shape of a normal distribution is determined by the sample size (<code>n</code>), the average (or <code>mean</code>), and the standard deviation (<code>sd</code>).</p>
 <p>The shape of the curve in a normal distribution is always symmetrical, but it’s not always the same shape. The shape of the distribution changes based on the <code>n</code>, <code>mean</code>, and <code>sd</code> arguments.</p>
 <p>We’re going to generate a series of plots, each with a normal distribution, but with varying values for <code>n</code>, <code>mean</code>, and <code>sd</code>.</p>
@@ -374,11 +383,14 @@ base_layer</code></pre>
 </div>
 <p>By increasing the sample size, we’ve made the distribution more ‘bell-shaped’ (it’s hard to base predictions off of small samples).</p>
 </div>
-<div id="section-z-scores-and-p-values" class="section level3">
-<h3>Z-scores and p-values</h3>
+<div id="section-normal-distribution-z-scores" class="section level2">
+<h2>Normal distribution: z-scores</h2>
 </div>
-<div id="section-cumulative-probabiliy" class="section level3">
-<h3>Cumulative probabiliy</h3>
+<div id="section-normal-distribution-p-values" class="section level2">
+<h2>Normal distribution: p-values</h2>
+</div>
+<div id="section-normal-distribution-cumulative-probabiliy" class="section level2">
+<h2>Normal distribution: cumulative probabiliy</h2>
 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
@@ -497,7 +509,6 @@ output$`tutorial-exercise-stat_function-large-sample-output` <- renderUI({
 {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79]}},"value":[{"type":"character","attributes":{},"value":["assertthat","backports","base","base64enc","broom","cellranger","cli","colorspace","compiler","crayon","datasets","DBI","dbplyr","digest","dplyr","ellipsis","evaluate","fansi","fastmap","forcats","fs","generics","ggplot2","glue","graphics","grDevices","grid","gtable","haven","hms","htmltools","htmlwidgets","httpuv","httr","jsonlite","knitr","later","learnr","lifecycle","lubridate","magrittr","markdown","methods","mime","modelr","munsell","pillar","pkgconfig","promises","purrr","R6","Rcpp","readr","readxl","repr","reprex","rlang","rmarkdown","rprojroot","rstudioapi","rvest","scales","shiny","skimr","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","tools","utils","vctrs","withr","xfun","xml2","xtable","yaml"]},{"type":"character","attributes":{},"value":["0.2.1","1.2.1","4.0.3","0.1-3","0.7.3","1.1.0","2.2.0","2.0-0","4.0.3","1.3.4","4.0.3","1.1.1","2.0.0","0.6.27","1.0.3","0.3.1","0.14","0.4.2","1.0.1","0.5.0","1.5.0","0.1.0","3.3.3","1.4.2","4.0.3","4.0.3","4.0.3","0.3.0","2.3.1","1.0.0","0.5.1","1.5.3","1.5.5","1.4.2","1.7.2","1.30","1.1.0.1","0.10.1","0.2.0","1.7.9.2","2.0.1","1.1","4.0.3","0.9","0.1.8","0.5.0","1.4.7","2.0.3","1.1.1","0.3.4","2.5.0","1.0.6","1.4.0","1.3.1","1.1.0","0.3.0","0.4.10","2.6.4","2.0.2","0.13","0.3.6","1.1.1","1.5.0","2.1.2","4.0.3","1.5.3","1.4.0","3.0.5","1.1.2","1.1.0","1.3.0","4.0.3","4.0.3","0.3.6","2.4.0","0.20","1.3.2","1.8-4","2.2.1"]}]}]}
 </script>
 <!--/html_preserve-->
-</div>
 </div>
 
 </div> <!-- topics -->

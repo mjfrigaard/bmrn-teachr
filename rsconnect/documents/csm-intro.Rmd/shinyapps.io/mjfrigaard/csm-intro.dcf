@@ -5,9 +5,9 @@ account: mjfrigaard
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3501228
-bundleId: 4125874
+bundleId: 4126373
 url: https://mjfrigaard.shinyapps.io/csm-intro/
-when: 1611239988.71104
+when: 1611249174.7757
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: scratch.R|scratch.Rmd

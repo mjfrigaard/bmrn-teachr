@@ -22,13 +22,13 @@ knitr::opts_chunk$set(error = TRUE)
 
 This tutorial exposes you to some basic statistical concepts used in centralized statistical monitoring (CSM). Feel free to follow along in [the paper by Beauregard et al](https://www.appliedclinicaltrialsonline.com/view/basics-clinical-trial-centralized-monitoring). 
 
-```{r paper, echo = FALSE, out.width = "80%", out.width = "80%"}
-knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/paper.png?raw=true")
+```{r paper-png, echo = FALSE, out.height='80%', out.width='80%'}
+knitr::include_graphics(path = "https://raw.githubusercontent.com/mjfrigaard/bmrn-teachr/main/images/paper.png?token=AB73BRWED23E7EN33BDSOZDACL3GK")
 ```
 
 To help understand these topics, we're going to be using the R statistical programming language.  
 
-```{r Rlogo, echo = FALSE, out.width = "100px"}
+```{r Rlogo, echo = FALSE, out.height = "80%", out.width = "80%"}
 knitr::include_graphics(path = "https://raw.githubusercontent.com/aosmith16/r-basics-workshop/master/images/Rlogo.png")
 ```
 
@@ -56,7 +56,7 @@ We will cover:
 
 The normal distribution is symmetrical around the mean (or average). The tails represent the spread (variance) from the location (central tendency).
 
-```{r normal-dist.png, echo=FALSE, out.height='80%', out.width='80%'}
+```{r normal-dist.png, echo = FALSE, out.height = "80%", out.width = "80%"}
 knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
 ```
 
@@ -112,7 +112,7 @@ str()
 
 This process of using a function to create an object (like `rand_norm10`), then using another function to explore it's contents is essential in R. Think of it as '**store and explore**'
 
-```{r store-explore.png, echo=FALSE, out.height='80%', out.width='80%'}
+```{r store-explore.png, echo = FALSE, out.height = "80%", out.width = "80%"}
 knitr::include_graphics(
 "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/store-explore.png?raw=true")
 ```
@@ -162,7 +162,7 @@ glimpse(x = )
 
 We want to see if the columns in `Normal` look like the figure below:
 
-```{r normal-dist-png-2, echo=FALSE, out.height='80%', out.width='80%'}
+```{r normal-dist-png-2, echo = FALSE, out.height = "80%", out.width = "80%"}
 knitr::include_graphics(path = "https://github.com/mjfrigaard/bmrn-teachr/blob/main/images/normal-dist.png?raw=true")
 ```
 
